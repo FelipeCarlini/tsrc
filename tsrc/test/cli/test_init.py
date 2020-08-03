@@ -11,8 +11,7 @@ import os
 
 
 def repo_exists(workspace_path: Path, repo: str) -> bool:
-    res = (workspace_path / repo).exists()
-    return cast(bool, res)
+    return (workspace_path / repo).exists()
 
 
 def assert_cloned(workspace_path: Path, repo: str) -> None:

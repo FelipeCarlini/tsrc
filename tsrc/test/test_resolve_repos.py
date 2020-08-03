@@ -22,7 +22,8 @@ def create_manifest(
     manifest_path = tmp_path / ".tsrc/manifest"
     manifest_path.makedirs_p()
     dump_path = manifest_path / "manifest.yml"
-    dump_path.write_text(ruamel.yaml.dump(config))
+    with dump_path.open("w") as f:
+        ruamel.yaml.dump(config, f)
 
 
 def create_workspace(
