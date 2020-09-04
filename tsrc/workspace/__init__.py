@@ -2,6 +2,7 @@
 """
 
 from typing import Iterable, List, Tuple
+import os
 
 import cli_ui as ui
 from path import Path
@@ -37,8 +38,24 @@ def copy_cfg_path_if_needed(root_path: Path) -> None:
 
 
 class Workspace:
-    def __init__(self, root_path: Path) -> None:
-        local_manifest_path = root_path / ".tsrc" / "manifest"
+    def __init__(self, root_path: Path, local_file: bool = False) -> None:
+        local_manifest_path = self.get_local_manifest_path(root_path, local_file)
+        if local_file:
+            root_path = Path(os.getcwd())
+            cfg_path = root_path / ".tsrc" / "config.yml"
+            if not cfg_path.exists():
+                workspace_config = WorkspaceConfig(
+                    manifest_url=False,
+                    manifest_path=local_file,
+                    manifest_branch=False,
+                    clone_all_repos=False,
+                    repo_groups=[],
+                    shallow_clones=False,
+                    singular_remote=False,
+                )
+
+                workspace_config.save_to_file(cfg_path)
+
         self.cfg_path = root_path / ".tsrc" / "config.yml"
         self.root_path = root_path
         self.local_manifest = LocalManifest(local_manifest_path)
@@ -60,6 +77,13 @@ class Workspace:
         # have configured a workspace with a `backend` group, but using
         # a disjoint `front-end` group on the command line.
         self.repos: List[tsrc.Repo] = []
+
+    def get_local_manifest_path(self, root_path: Path, local_manifest: bool):
+        if local_manifest:
+            local_manifest_path = Path(os.getcwd())
+        else:
+            local_manifest_path = root_path / ".tsrc" / "manifest"
+        return local_manifest_path
 
     def get_manifest(self) -> tsrc.Manifest:
         return self.local_manifest.get_manifest()

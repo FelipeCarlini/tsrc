@@ -14,6 +14,7 @@ class WorkspaceConfig:
     """
 
     manifest_url = attr.ib()  # type: str
+    manifest_path = attr.ib()  # type: str
     manifest_branch = attr.ib()  # type: str
     repo_groups = attr.ib()  # type: List[str]
 

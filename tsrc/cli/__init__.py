@@ -114,16 +114,16 @@ def find_workspace_path() -> Path:
     raise tsrc.Error("Could not find current workspace")
 
 
-def get_workspace(workspace_path: Optional[Path]) -> tsrc.Workspace:
+def get_workspace(workspace_path: Optional[Path], local_file: bool = False) -> tsrc.Workspace:
     """
     Return a workspace instance after having parsed command line
     arguments.
 
     Uses the value of the `-w, --workspace` option.
     """
-    if not workspace_path:
+    if not workspace_path and local_file is False:
         workspace_path = find_workspace_path()
-    return tsrc.Workspace(workspace_path)
+    return tsrc.Workspace(workspace_path, local_file=local_file)
 
 
 def get_workspace_with_repos(
