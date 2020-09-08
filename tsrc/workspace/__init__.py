@@ -46,7 +46,6 @@ class Workspace:
             if not cfg_path.exists():
                 workspace_config = WorkspaceConfig(
                     manifest_url=False,
-                    manifest_path=local_file,
                     manifest_branch=False,
                     clone_all_repos=False,
                     repo_groups=[],
