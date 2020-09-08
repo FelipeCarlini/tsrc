@@ -18,6 +18,7 @@ from .init import init
 from .log import log
 from .status import status
 from .sync import sync
+from .local_sync import local_sync
 from .version import version
 
 ArgsList = Optional[Sequence[str]]
@@ -86,7 +87,7 @@ def main_impl(args: ArgsList = None) -> None:
     )
     parser.add_argument("--color", choices=["auto", "always", "never"])
 
-    parser.add_commands([apply_manifest, init, foreach, version, log, sync, status])
+    parser.add_commands([apply_manifest, init, foreach, version, log, sync, status, local_sync])
 
     ui_args = parser.parse_args(args=args)
     setup_ui(ui_args)
